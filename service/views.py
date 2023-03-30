@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from service.models import Post, Comment
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .forms import PostForm, CommentForm, UserRegisterForm
 from django.urls import reverse_lazy
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 
 def index(req):
     return render(req, 'index.html')
@@ -16,6 +16,8 @@ class RegisterForm(CreateView):
     template_name = 'register.html'
     success_url = reverse_lazy('login')
 
+
+
 class PostsView(ListView):
     model = Post
     template_name = 'index.html'
@@ -25,22 +27,25 @@ class DetailPostsView(DetailView):
     model = Post
     template_name = 'detail_post.html'
 
-class CreatePostView(CreateView):
+class CreatePostView(PermissionRequiredMixin, CreateView):
+    permission_required = 'service.add_post'
     model = Post
     template_name = 'create_post.html'
     form_class = PostForm
 
-class UpdatePostView(UpdateView):
+class UpdatePostView(PermissionRequiredMixin, UpdateView):
+    permission_required = 'service.change_post'
     model = Post
     template_name = 'create_post.html'
     form_class = PostForm
 
-class DeletePostView(DeleteView):
+class DeletePostView(PermissionRequiredMixin, DeleteView):
+    permission_required = 'service.delete_post'
     model = Post
     template_name = 'delete_post.html'
     success_url = reverse_lazy('index')
 
-class AddCommentView(CreateView):
+class AddCommentView(LoginRequiredMixin, CreateView):
     model = Comment
     template_name = 'add_comment.html'
     form_class = CommentForm
