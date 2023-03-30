@@ -134,3 +134,9 @@ LOGIN_REDIRECT_URL = 'index'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'eretomaniac@gmail.com' 
+EMAIL_HOST_PASSWORD = 'Hcxpfzdm1'
+EMAIL_USE_TLC = True 
