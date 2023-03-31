@@ -7,10 +7,25 @@ from api.serializers import CheckboxSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.views import APIView
+from django.contrib.auth.models import User
+from rest_framework import authentication, permissions
+from rest_framework import generics, mixins
 
 #class CheckboxViewSet(viewsets.ModelViewSet):
 #    queryset = Checkbox.objects.all()
 #    serializer_class = CheckboxSerializer
+
+class CheckboxList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+    queryset = Checkbox.objects.all()
+    serializer_class = CheckboxSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
 
 @api_view(['GET'])
 def checkbox_list(req):
