@@ -148,3 +148,47 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10
 }
+
+LOGGING = {
+    'version': 1,
+    'desible_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '[%(asctime)s] %(levelname)s %(message)s',
+            'datefmt': '%Y.%m.%d %H:%M:%S',
+        },
+    },
+    'filters':{
+        'require_debug_true':{
+            '()':'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false':{
+            '()':'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers':{
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+            'filters': ['require_debug_false'],
+            'level': 'ERROR',
+        },
+        'console':{
+            'class': 'logging.StreamHandler',
+            'filters': ['require_debug_true'],
+            'level': 'ERROR',
+            'formatter': 'simple',
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'logs/forum_api.log',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+        },
+    },
+}
