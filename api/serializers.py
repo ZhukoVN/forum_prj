@@ -3,15 +3,10 @@ from api.models import Checkbox
 
 class CheckboxSerializer(serializers.ModelSerializer):
 
-    #title = serializers.SerializerMethodField()
     class Meta:
         model = Checkbox
         fields = '__all__'
 
-    #@staticmethod
-    #def get_title(obj):
-    #    return obj.name + ' ' +'python'
-        
 
 class DataSerializer(serializers.Serializer):
 
